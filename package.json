@@ -1,6 +1,7 @@
 {
   "name": "dmp-multi-numeric-input",
   "main": "dmp-multi-numeric-input.js",
+  "version": "0.1.0",
   "dependencies": {
     "@polymer/iron-icon": "^3.0.1",
     "@polymer/iron-icons": "^3.0.1",
