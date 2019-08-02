@@ -25,7 +25,39 @@
       <h3>Basic dmp-multi-numeric-input demo required</h3>
       <demo-snippet>
         <template>
-          <dmp-multi-numeric-input required></dmp-multi-numeric-input>
+          <dmp-multi-numeric-input required id="demo1"></dmp-multi-numeric-input>
+          <button id="btnValidateDemo1">validate</button>
+          <script>
+            let btn = document.querySelector("#btnValidateDemo1");
+            let el = document.querySelector("#demo1");
+            el.value = [
+              {required: true, name: "text 1 required and removable", removable: false, label: "this is the label"},
+              {required: true, name: "text 2 required and removable", removable: false, label: "this is the label"},
+              {required: true, name: "text 3 required and removable", removable: false, label: "this is the label"},
+            ]
+            btn.addEventListener("click", (e) =>{
+              console.log( el.validate() );
+            })
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+    <div class="vertical-section-container centered">
+      <h3>Loading external data</h3>
+      <demo-snippet>
+        <template>
+          <dmp-multi-numeric-input required id="demo2" value=""></dmp-multi-numeric-input>
+          <script>
+            let el2 = document.querySelector("#demo2");
+            setTimeout(()=> {
+              el2.value = [
+                {required: true, name: "text 1 required and removable", removable: false, label: "this is the label"},
+                {required: true, name: "text 2 required and removable", removable: false, label: "this is the label"},
+                {required: true, name: "text 3 required and removable", removable: false, label: "this is the label"},
+              ]
+            }, 3000);
+          </script>
         </template>
       </demo-snippet>
     </div>

@@ -17,15 +17,6 @@ class DmpMultiNumericInput extends PolymerElement {
     return html`
       <style>
         :host {
-          /** 
-          textos #636363
-          textos disabled: #A6A6A6
-          primary: #13C1AC 
-          primary-soft: #96DDD1
-          amarillos: #FFD64E;
-          rojos: #DE7A7A 
-          rojos-soft: #DE7A7A 
-          */
 
           display: block;
           --dmp-multi-numeric-input-primary :  #13C1AC;
@@ -34,7 +25,7 @@ class DmpMultiNumericInput extends PolymerElement {
           --dmp-multi-numeric-input-disabled-text :  #A6A6A6;
           --dmp-multi-numeric-input-error :  #DE7A7A;
           --dmp-multi-numeric-input-warning :  #FFD64E;
-          --dmp-multi-numeric-input-removable-space :  35px;
+          --dmp-multi-numeric-input-removable-space :  40px;
         }
         .row{
           display: flex;
@@ -56,7 +47,8 @@ class DmpMultiNumericInput extends PolymerElement {
         .clear{
           width: var(--dmp-multi-numeric-input-removable-space);
           margin-top: 20px;
-          color: var(--dmp-multi-numeric-input-error)
+          color: var(--dmp-multi-numeric-input-error);
+
         }
         .removable_space {
           width: var(--dmp-multi-numeric-input-removable-space);
@@ -67,7 +59,7 @@ class DmpMultiNumericInput extends PolymerElement {
           margin-top: 40px;
         }
         .add{
-          --paper-icon-button-ink-color: var(--dmp-multi-numeric-input-primary);;
+          --paper-icon-button-ink-color: white;
           background: var(--dmp-multi-numeric-input-primary);
           border-radius: 50%;
           color: white;
@@ -76,11 +68,14 @@ class DmpMultiNumericInput extends PolymerElement {
         paper-input{
           --paper-input-container-color: var(--dmp-multi-numeric-input-disabled-text); /** linea y labels */
           --paper-input-container-focus-color: var(--dmp-multi-numeric-input-primary); /** linea y labels focused */
-          --paper-input-container-invalid-color: var(--dmp-multi-numeric-input-red); /** linea error */
+          --paper-input-container-invalid-color: var(--dmp-multi-numeric-input-error); /** linea error */
           --paper-input-container-input-color: var(--dmp-multi-numeric-input-text); /** texto */
           /** grosor de linea */
         }
-        
+        .error_msg {
+          color: var(--dmp-multi-numeric-input-error);
+        }
+
       </style>
       
       <div class="list_container">
@@ -105,7 +100,7 @@ class DmpMultiNumericInput extends PolymerElement {
               </div>
               <paper-input readonly="[[!item.removable]]" class="label" label="[[item.label]]" value="{{item.name}}"></paper-input>
             </div>
-              <paper-input required min="10" auto-validate invalid="{{item.invalid}}" type="number" class="value" value="{{item.value}}">
+              <paper-input  required="[[item.required]]" min="10" auto-validate invalid="{{item.invalid}}" type="number" class="value" value="{{item.value}}">
                 <span slot="suffix">[[currency]]</span>
               </paper-input>
             </div>
@@ -122,48 +117,41 @@ class DmpMultiNumericInput extends PolymerElement {
   }
   static get properties() {
     return {
-      _initialValue: {
-        type: Array,
-        value: [
-          {required: true, name: "30 Minutos", removable: false, label: "Tarifa 30 min"},
-          {required: true, name: "1 hora", removable: false, label: "Tarifa 1 hora"},
-          {required: true, name: "Toda la noche", removable: false, label: "Toda la noche"}
-        ]
-      },
+      /** Input/Output of component */
       value: {
         type: Array,
       },
+      /** Currency of each value */
       currency: {
         type: String,
         value: "€"
       },
+      /** header left label */
       headerLeft: {
         type: String,
-        value: "Tarifas"
+        value: "Items"
       },
+      /** header right label */
       headerRight: {
         type: String,
-        value: "Valor"
+        value: "Value"
       },
+      /** Msg error. It shows when component validate and return invalid */
       errorMsg: {
         type: String,
-        value: "Rellene los campos requeridos"
+        value: "Please fill required fields"
       },
+      /** Proverty save the validation value */
       invalid: {
         type: Boolean,
         value: false
       },
+      /** This prop is a flag to validate if required fields of the component are filled */
       required: {
         type: Boolean,
         value: false
       }
     };
-  }
-
-  ready(){
-    super.ready();
-    this.value = this._initialValue;
-    // ojo cuando sea una modificacion, en el ready sobrescribira los datos
   }
 
   newItem() {
@@ -180,6 +168,8 @@ class DmpMultiNumericInput extends PolymerElement {
 
   validate() {
     if (this.required) {
+      const items = [].slice.call(this.shadowRoot.querySelectorAll("paper-input.value") || []);
+      items.forEach(item => item.validate());
       const itemsInvalid = this.value.filter(item => item.invalid);
       this.invalid = itemsInvalid.length > 0 ? true : false;
     }
@@ -187,7 +177,8 @@ class DmpMultiNumericInput extends PolymerElement {
   }
 
   reset() {
-    this.value = this._initialValue;
+    this.value = [];
+    this.invalid = false;
   }
 }
 
