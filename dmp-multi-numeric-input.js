@@ -19,12 +19,13 @@ class DmpMultiNumericInput extends PolymerElement {
         :host {
 
           display: block;
-          --dmp-multi-numeric-input-primary :  #13C1AC;
-          --dmp-multi-numeric-input-secundary :  #636363;
-          --dmp-multi-numeric-input-text :  #636363;
-          --dmp-multi-numeric-input-disabled-text :  #A6A6A6;
-          --dmp-multi-numeric-input-error :  #DE7A7A;
-          --dmp-multi-numeric-input-warning :  #FFD64E;
+          width: 100%;
+          --dmp-multi-numeric-input-primary :  var(--primary-color, #13C1AC);
+          --dmp-multi-numeric-input-secundary :  var(--accent-color, #636363);
+          --dmp-multi-numeric-input-text :  var(--primary-text-color, #636363);
+          --dmp-multi-numeric-input-disabled-text :  var(--disabled-text-color, #A6A6A6);
+          --dmp-multi-numeric-input-error :  var(--error-color, #DE7A7A);
+          --dmp-multi-numeric-input-warning :  var(--warning-color, #FFD64E);
           --dmp-multi-numeric-input-removable-space :  40px;
         }
         .row{
@@ -42,7 +43,7 @@ class DmpMultiNumericInput extends PolymerElement {
         }
         .value{
           width: 10%;
-          min-width: 30px;
+          min-width: 60px;
         }
         .clear{
           width: var(--dmp-multi-numeric-input-removable-space);
@@ -76,11 +77,16 @@ class DmpMultiNumericInput extends PolymerElement {
           color: var(--dmp-multi-numeric-input-error);
         }
 
+        .headerLeft {
+          margin-left: 40px;
+        }
+
       </style>
       
+      <h2>[[title]]</h2>
       <div class="list_container">
         <div class="header_container row">
-          <div>[[headerLeft]]</div>
+          <div class='headerLeft'>[[headerLeft]]</div>
           <div>[[headerRight]]</div>
         </div>
         <div class="body_container">
@@ -150,6 +156,10 @@ class DmpMultiNumericInput extends PolymerElement {
       required: {
         type: Boolean,
         value: false
+      },
+      title: {
+        type: String,
+        value: 'Im the title'
       }
     };
   }
