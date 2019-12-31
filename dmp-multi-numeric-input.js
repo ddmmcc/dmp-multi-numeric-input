@@ -84,6 +84,9 @@ class DmpMultiNumericInput extends PolymerElement {
       </style>
       
       <h2>[[title]]</h2>
+      <p class="error_msg" hidden="[[!invalid]]">
+        [[errorMsg]]
+      </p> 
       <div class="list_container">
         <div class="header_container row">
           <div class='headerLeft'>[[headerLeft]]</div>
@@ -115,9 +118,6 @@ class DmpMultiNumericInput extends PolymerElement {
             <paper-icon-button on-click="newItem" icon="add" alt="add" class="add"> </paper-icon-button>          
           </div>
         </div>
-      </div>
-      <div class="error_msg" hidden="[[!invalid]]">
-        [[errorMsg]]
       </div>
     `;
   }
@@ -177,7 +177,7 @@ class DmpMultiNumericInput extends PolymerElement {
   }
 
   validate() {
-    if (this.required) {
+    if (this.required) { // Valida que los elementos que son requeridos tengan valor
       const items = [].slice.call(this.shadowRoot.querySelectorAll("paper-input.value") || []);
       items.forEach(item => item.validate());
       const itemsInvalid = this.value.filter(item => item.invalid);
